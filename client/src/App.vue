@@ -1,8 +1,5 @@
 <template>
   <div id="app">
-		<!-- <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
-		<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor/dist/index.dark.css" /> -->
-    <!-- <img src="./assets/logo.png"> -->
     <router-view/>
   </div>
 </template>

@@ -3,19 +3,17 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">登 录</h3>
-        <span>三胖欢迎您~ 😊</span>
+        <h3 class="title">Login</h3>
       </div>
 
       <el-form-item prop="username">
         <span class="svg-container">
-          <!-- <svg-icon icon-class="user" /> -->
           <i class="el-icon-user-solid"></i>
         </span>
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="用户名"
+          placeholder="username"
           name="username"
           type="text"
           tabindex="1"
@@ -33,7 +31,7 @@
             ref="password"
             v-model="loginForm.password"
             :type="passwordType"
-            placeholder="密码"
+            placeholder="password"
             name="password"
             tabindex="2"
             auto-complete="on"
@@ -42,15 +40,14 @@
             @keyup.enter.native="handleLogin"
           />
           <span class="show-pwd" @click="showPwd">
-            <!-- <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" /> -->
             <i class="el-icon-view"></i>
           </span>
         </el-form-item>
       </el-tooltip>
 
-      <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">登 录</el-button>
-      <p style="font-size: 14px;color: #7f8896;line-height: 40px;">还没有账号？快去注册</p>
-      <el-button :loading="loading" plain style="width:100%;margin-bottom:30px;margin-left: 0px;" @click.native.prevent="toRegister">注 册</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">Login</el-button>
+      <p style="font-size: 14px;color: #7f8896;line-height: 40px;">Do not have an account yet? Go to register</p>
+      <el-button :loading="loading" plain style="width:100%;margin-bottom:30px;margin-left: 0px;" @click.native.prevent="toRegister">Register</el-button>
     </el-form>
   </div>
 </template>
@@ -59,7 +56,6 @@
 import { login } from '../api/user'
 export default {
   name: 'Login',
-  // components: { SocialSign },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -104,18 +100,12 @@ export default {
       immediate: true
     }
   },
-  created() {
-    // window.addEventListener('storage', this.afterQRScan)
-  },
   mounted() {
     if (this.loginForm.username === '') {
       this.$refs.username.focus()
     } else if (this.loginForm.password === '') {
       this.$refs.password.focus()
     }
-  },
-  destroyed() {
-    // window.removeEventListener('storage', this.afterQRScan)
   },
   methods: {
     checkCapslock({ shiftKey, key } = {}) {
@@ -140,14 +130,11 @@ export default {
         this.$refs.password.focus()
       })
     },
-    //登陆
     handleLogin() {
-			// debugger
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          // this.loading = true
-
           login({name:this.loginForm.username, password:this.loginForm.password}).then(res => {
+            console.log('res: ', res);
 						let user = res.user
 						window.sessionStorage.setItem('user',JSON.stringify(user))
             this.$message({
@@ -155,18 +142,14 @@ export default {
           		duration: 2 * 1000,
               type: 'success'
             });
-            this.$router.push({//这里改成回到上一页
+            this.$router.push({
               name: 'Index',
               params: {
                 username: user.name
               }
             })   
           }).catch(err => {
-            // this.$message({
-            //   message: err,
-            //   type: 'error',
-            //   duration: 2 * 1000
-            // })
+            console.log('err: ', err);
           })
         } else {
           console.log('error submit!!')
@@ -174,7 +157,6 @@ export default {
         }
       })
     },
-    //注册
     toRegister() {
       this.$router.push({
         name: 'Register'
@@ -188,32 +170,11 @@ export default {
         return acc
       }, {})
     }
-    // afterQRScan() {
-    //   if (e.key === 'x-admin-oauth-code') {
-    //     const code = getQueryObject(e.newValue)
-    //     const codeMap = {
-    //       wechat: 'code',
-    //       tencent: 'code'
-    //     }
-    //     const type = codeMap[this.auth_type]
-    //     const codeName = code[type]
-    //     if (codeName) {
-    //       this.$store.dispatch('LoginByThirdparty', codeName).then(() => {
-    //         this.$router.push({ path: this.redirect || '/' })
-    //       })
-    //     } else {
-    //       alert('第三方登录失败')
-    //     }
-    //   }
-    // }
   }
 }
 </script>
 <style type="text/css" src="../assets/css/resset.css"></style> 
 <style lang="scss">
-  /* 修复input 背景不协调 和光标变色 */
-  /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
-
   $bg:#283443;
   $light_gray:#fff;
   $cursor: #fff;

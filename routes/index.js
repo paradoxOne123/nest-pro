@@ -11,7 +11,6 @@ function addMapping(router, mapping) {
 				count = med.length + 1;
 				var path = url.substring(count);
 				eval('router.'+ med.toLowerCase() + '(path, mapping[url])')
-				// router.get(path, mapping[url]);
 				console.log(`register URL mapping: ${med} ${path}`);
 			}else {
 				console.log(`invalid URL: ${url}`);
@@ -35,7 +34,7 @@ function addControllers(router, dir) {
 }
 
 function routerController (dir) {
-    let controllers_dir = dir || 'controllers'; // 如果不传参数，扫描目录默认为'controllers'
+    let controllers_dir = dir || 'controllers';
     addControllers(router, controllers_dir);
     return router.routes();
 };

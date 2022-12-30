@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">注 册</h3>
+        <h3 class="title">Register</h3>
       </div>
 
       <el-form-item prop="username">
@@ -13,7 +13,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="用户名"
+          placeholder="username"
           name="username"
           type="text"
           tabindex="1"
@@ -27,7 +27,7 @@
         <el-input
           ref="email"
           v-model="loginForm.email"
-          placeholder="邮箱"
+          placeholder="email"
           name="email"
           type="text"
           tabindex="1"
@@ -45,7 +45,7 @@
             ref="password"
             v-model="loginForm.password"
             :type="passwordType"
-            placeholder="密码"
+            placeholder="password"
             name="password"
             tabindex="2"
             auto-complete="on"
@@ -67,7 +67,7 @@
             ref="password-repeat"
             v-model="loginForm.passwordrepeat"
             :type="passwordType"
-            placeholder="确认密码"
+            placeholder="confirm password"
             name="password-repeat"
             tabindex="2"
             auto-complete="on"
@@ -76,14 +76,13 @@
             @keyup.enter.native="handelReg"
           />
           <span class="show-pwd" @click="showPwd">
-            <!-- <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" /> -->
             <i class="el-icon-view"></i>
           </span>
         </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handelReg">注 册</el-button>
-      <p style="font-size: 14px;color: #7f8896;line-height: 40px;">已有账号？快去登陆</p>
-      <el-button :loading="loading" plain style="width:100%;margin-bottom:30px;margin-left: 0px;" @click.native.prevent="toLogin">登 陆</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handelReg">Register</el-button>
+      <p style="font-size: 14px;color: #7f8896;line-height: 40px;">Already have an account? Goto login</p>
+      <el-button :loading="loading" plain style="width:100%;margin-bottom:30px;margin-left: 0px;" @click.native.prevent="toLogin">Login</el-button>
     </el-form>
   </div>
 </template>
@@ -92,22 +91,21 @@
 import { register } from '../api/user'
 export default {
   name: 'Login',
-  // components: { SocialSign },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+        callback(new Error('Please enter the correct user name.'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('密码不少于6位字符！'))
+        callback(new Error('The password should no less than 6 characters.'))
       } 
       var pwdRegex = new RegExp('(?=.*[0-9])(?=.*[a-zA-Z]).{6,30}');
       if (!pwdRegex.test('a2b3c4d5')) {
-        callback(new Error('您的密码复杂度太低（密码中必须包含字母、数字），请及时修改密码！'))
+        callback(new Error('The complexity of your password is too low (the password must contain letters and numbers). Please change your password in time.'))
       }
       callback()
     }
@@ -180,7 +178,6 @@ export default {
         this.$refs.password.focus()
       })
     },
-    //登陆
     handelReg() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
@@ -193,7 +190,7 @@ export default {
           register(req).then(res => {
             let user = res.user
             this.$message({
-              message: '注册成功',
+              message: 'register successful',
               type: 'success',
               duration: 2 * 1000
             })
@@ -201,11 +198,6 @@ export default {
               name: 'Login'
             })   
           }).catch(err => {
-            // this.$message({
-            //   message: err,
-            //   type: 'error',
-            //   duration: 2 * 1000
-            // })
           })
         } else {
           console.log('error submit!!')
@@ -213,7 +205,6 @@ export default {
         }
       })
     },
-    //注册
     toLogin() {
       this.$router.push({
         name: 'Login'
@@ -227,31 +218,10 @@ export default {
         return acc
       }, {})
     }
-    // afterQRScan() {
-    //   if (e.key === 'x-admin-oauth-code') {
-    //     const code = getQueryObject(e.newValue)
-    //     const codeMap = {
-    //       wechat: 'code',
-    //       tencent: 'code'
-    //     }
-    //     const type = codeMap[this.auth_type]
-    //     const codeName = code[type]
-    //     if (codeName) {
-    //       this.$store.dispatch('LoginByThirdparty', codeName).then(() => {
-    //         this.$router.push({ path: this.redirect || '/' })
-    //       })
-    //     } else {
-    //       alert('第三方登录失败')
-    //     }
-    //   }
-    // }
   }
 }
 </script>
-<!-- <style type="text/css" src="../assets/css/resset.css"></style> -->
 <style lang="scss">
-  /* 修复input 背景不协调 和光标变色 */
-  /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
   $bg:#283443;
   $light_gray:#fff;

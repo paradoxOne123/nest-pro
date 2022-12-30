@@ -5,4 +5,3 @@ module.exports = {
     port: 27017,
     url: 'mongodb://127.0.0.1:27017/blog',
 };
-//数据库配置文件

@@ -35,14 +35,14 @@ async function login(ctx) {
 		if(!result.list[0]) {
 			return ctx.body = {
 				code: 5000,
-				msg: '用户不存在!'
+				msg: 'User does not exist'
 			};
 		}
 		console.log(result.list[0].password, password)
 		if (result.list[0].password != password) {
 			return ctx.body = {
 				code: 5000,
-				msg: '密码错误!'
+				msg: 'Wrong password'
 			};
 		}
 		console.log(result)
@@ -67,7 +67,7 @@ async function register(ctx) {
         password_f = req.password,
         password_re = req['password-repeat'];
     if (password_re != password_f) {
-      res.send({code: 5000,msg: '两次输入的密码不一致!'});
+      res.send({code: 5000,msg: 'The passwords entered twice are inconsistent'});
     }
     let md5 = crypto.createHash('md5'),
         password = md5.update(req.password).digest('hex');
@@ -87,13 +87,13 @@ async function register(ctx) {
 		if (result.list[0]) {
 			return ctx.body = {
 				code: 5000,
-				msg: '用户已存在！'
+				msg: 'User already exists'
 			};
 		}
 		if (result.list[0]&&result.list[0].email == email) {
 			return ctx.body = {
 				code: 5000,
-				msg: '该邮箱已注册！'
+				msg: 'The mailbox has been registered'
 			};
 		}
 		const res = await newUser.save()
@@ -107,7 +107,7 @@ async function register(ctx) {
 		ctx.status = 200
 		ctx.body = {
 			code: 1000,
-			user: '注册成功!'
+			user: 'Register successful'
 		};
 		
 	} catch (e) {
@@ -119,13 +119,13 @@ async function logout(ctx) {
 	ctx.session.user = null;
 	ctx.body = {
 		code: 1000,
-		msg: '登出成功!'
+		msg: 'Logout successful'
 	};
 }
 
 module.exports = {
-  "GET /api/user/info": getUserInfo, //获取用户信息
-  "POST /api/user/login": login, //登陆
-	"POST /api/user/register": register, //注册
+  "GET /api/user/info": getUserInfo,
+  "POST /api/user/login": login,
+	"POST /api/user/register": register,
 	"POST /api/user/logout": logout
 };
